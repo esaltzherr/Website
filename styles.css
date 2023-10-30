@@ -1,6 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
     color: #333;
     background-color: #f4f4f4;
 }
@@ -13,56 +12,70 @@ header, nav, section, footer {
     border-radius: 8px;
 }
 
-nav ul {
-    list-style: none;
-    padding: 0;
+.center-text {
+    text-align: center;
 }
 
-nav ul li {
+.profile-pic {
+    width:256px;
+    height:256px;
+    border:0;
+}
+
+.email-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+nav {
+    text-align: center;
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    display: inline-block;
+}
+
+
+
+.nav-list li {
     display: inline;
     margin: 0 20px;
+    text-align: center;
 }
+
 
 a {
     color: #008CBA;
     text-decoration: none;
+    transition: transform 0.3s ease-in-out;
+    display: inline-block;
 }
 
 a:hover {
     text-decoration: underline;
+    transform: scale(1.2);
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
-a {
-    transition: transform 0.3s ease-in-out; /* Add transition for smooth scaling */
-    display: inline-block; /* Make the anchor element block-level for transform to work */
-}
-
-a:hover {
-    transform: scale(1.2); /* Scale text up by 20% on hover */
-}
-
-/* Styles for images within links */
 a img {
     transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
 }
 
 a img:hover {
     transform: scale(1.1);
-
 }
 
-/* Styles for smooth scrolling */
-html {
-    scroll-behavior: smooth;
+section {
+    text-align: center;
 }
 
 ul {
-    display: inline-block;
     text-align: left;
-    margin: 0 auto;
-    padding-left: 20px;
+    display: inline-block;
+}
+
+html {
+    scroll-behavior: smooth;
 }
