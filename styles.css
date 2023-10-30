@@ -31,3 +31,31 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+html {
+    scroll-behavior: smooth;
+}
+
+a {
+    transition: transform 0.3s ease-in-out; /* Add transition for smooth scaling */
+    display: inline-block; /* Make the anchor element block-level for transform to work */
+}
+
+a:hover {
+    transform: scale(1.2); /* Scale text up by 20% on hover */
+}
+
+/* Styles for images within links */
+a img {
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+}
+
+a img:hover {
+    transform: scale(1.1);
+
+}
+
+/* Styles for smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
