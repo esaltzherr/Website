@@ -72,9 +72,11 @@ section {
 }
 
 ul {
+    width: 70%;
     text-align: left;
     display: inline-block;
 }
+
 
 html {
     scroll-behavior: smooth;
@@ -82,11 +84,7 @@ html {
 ul li > ul {
     display: block;
 }
-#projects ul {
-    width: 80%;
-    text-align: left;
-    margin: 0 auto;
-}
+
 
 .underlined {
     text-decoration: underline;
