@@ -91,3 +91,7 @@ ul li > ul {
 .underlined {
     text-decoration: underline;
 }
+
+a.permanent-underline {
+    text-decoration: underline;
+}
