@@ -179,7 +179,41 @@
 
         function preload() {
             player.image = loadImage('images/pixel_art_cute_small_ghost.png');
+            portalSpriteSheet = loadImage('images/PortalBlue-Sheet.png'); // Load the sprite sheet
         }
+
+        let portalFrames = []; // Array to hold each frame data
+
+        function setupPortalAnimation() {
+            // Assuming the sprite sheet has frames laid out horizontally
+            const frameCount = portalSpriteSheet.width / 50; // Calculate the number of frames
+
+            for (let i = 0; i < frameCount; i++) {
+                // Define each frame of the animation
+                portalFrames.push({ x: i * 50, y: 0, width: 50, height: 50 });
+            }
+        }
+
+        function drawTeleporters() {
+            if (teleporters.length > 0) {
+                let animationFrameRate = 7;
+                const frameIndex = Math.floor(animationCounter / animationFrameRate) % portalFrames.length; // Slow down frame rate
+                const frame = portalFrames[frameIndex]; // Get the current frame
+
+                teleporters.forEach(teleporter => {
+                    // Draw each frame of the animation instead of a static rectangle
+                    image(
+                        portalSpriteSheet, // Source image
+                        teleporter.x - window.scrollX, teleporter.y - window.scrollY, // Destination position
+                        teleporter.width, teleporter.height, // Destination size
+                        frame.x, frame.y, // Source position on the sprite sheet
+                        frame.width, frame.height // Source size on the sprite sheet
+                    );
+                });
+            }
+        }
+
+
 
 
         let teleporters = []; // Initialize teleporter array
@@ -240,23 +274,23 @@
         }
 
         function teleport(teleporter) {
-        const pairTeleporter = teleporters.find(t => t.pair === teleporter.target);
-        if (pairTeleporter) {
-            player.x = pairTeleporter.x;
-            player.y = pairTeleporter.y - player.height; // Adjust so the player appears above the teleporter
-            player.velocityY = 0; // Reset velocity to prevent falling through platforms
+            const pairTeleporter = teleporters.find(t => t.pair === teleporter.target);
+            if (pairTeleporter) {
+                player.x = pairTeleporter.x;
+                player.y = pairTeleporter.y - player.height; // Adjust so the player appears above the teleporter
+                player.velocityY = 0; // Reset velocity to prevent falling through platforms
 
-            // Now scroll the window to the player's new location
-            const newX = player.x - (window.innerWidth / 2) + (player.width / 2); // Center horizontally
-            const newY = player.y - (window.innerHeight / 2) + (player.height / 2); // Center vertically
+                // Now scroll the window to the player's new location
+                const newX = player.x - (window.innerWidth / 2) + (player.width / 2); // Center horizontally
+                const newY = player.y - (window.innerHeight / 2) + (player.height / 2); // Center vertically
 
-            window.scrollTo({
-                top: newY,
-                left: newX,
-                behavior: 'smooth' // Smooth scroll
-            });
+                window.scrollTo({
+                    top: newY,
+                    left: newX,
+                    behavior: 'smooth' // Smooth scroll
+                });
+            }
         }
-    }
 
         function createPlatformsFromSections() {
             platforms = []; // Reset platforms array
@@ -306,6 +340,8 @@
             canvas.parent('p5-canvas');
             createPlatformsFromSections(); // Initialize platforms
             createTeleporters(); // Initialize teleporters
+            setupPortalAnimation(); // Initialize the portal animation frames
+
         }
         function checkCollision(nextX, nextY) {
             for (let platform of platforms) {
@@ -320,6 +356,9 @@
             }
             return null; // No collision
         }
+
+
+        let animationCounter = 0;
 
         function draw() {
             clear();
@@ -373,15 +412,20 @@
                     }
                 }
 
+                animationCounter++;
+                // if (animationCounter >= animationFrameRate) {
+                //     // Reset counter
+                //     animationCounter = 0;
+                // }
 
                 // Check for teleportation before rendering the player
 
 
-
-                teleporters.forEach(teleporter => {
-                    fill(0, 255, 0); // Green color for teleporters
-                    rect(teleporter.x - window.scrollX, teleporter.y - window.scrollY, teleporter.width, teleporter.height);
-                });
+                drawTeleporters();
+                // teleporters.forEach(teleporter => {
+                //     fill(0, 255, 0); // Green color for teleporters
+                //     rect(teleporter.x - window.scrollX, teleporter.y - window.scrollY, teleporter.width, teleporter.height);
+                // });
 
                 // Render platforms
                 for (let platform of platforms) {
