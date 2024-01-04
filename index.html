@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,30 +11,50 @@
     <link rel="preload" href="images/GitHubLogo.png" as="image">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 </head>
+
 <body id="top">
     <header id="characterStartPoint">
         <div class="center-text">
             <h1>Elroy Saltzherr</h1>
-            <img src="images/ProfilePic.jpg" class="profile-pic" style="width:256px;height:256px;border:0;"/>
+            <img src="images/ProfilePic.jpg" class="profile-pic" style="width:256px;height:256px;border:0;" />
             <p><a href="mailto:lsaltzherr@gmail.com" class="email-link">lsaltzherr@gmail.com</a></p>
             <p>Hello, I am a UCSC senior Majoring in Computer Science: Game Design</p>
-            <p>I have spent a vast majority of my life playing games. Including but not limited to: Minecraft, league of legends, Pokemon, and Mario Games.</p>
+            <p>I have spent a vast majority of my life playing games. Including but not limited to: Minecraft, league of
+                legends, Pokemon, and Mario Games.</p>
         </div>
         <nav>
             <ul class="nav-list">
-                <li><a href="#Education">Education</a></li>   
+                <li><a href="#Education">Education</a></li>
                 <li><a href="#Skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#Links">Links</a></li>
             </ul>
-            <a href="javascript:void(0);" id="gameToggleButton" onclick="toggleGameMode()" class="button">Explore as a Game</a>
+            <a href="javascript:void(0);" id="gameToggleButton" onclick="toggleGameMode()" class="button">Explore as a
+                Game</a>
         </nav>
     </header>
 
     <section id="Education">
         <h2>Education</h2>
         <ul>
-        <!-- Education content -->
+            <li>Project Manager</li>
+            <li>Github</li>
+            <li>G Suite</li>
+            <li>Chat GPT</li>
+            <li>AI Image Generation</li>
+            <li>Programming Languages:
+                <ul>
+                    <li>JavaScript</li>
+                    <li>Java</li>
+                    <li>Python</li>
+                    <li>C++</li>
+                    <li>C#</li>
+                    <li>HTML</li>
+                </ul>
+            </li>
+            <li>CAD - Solidworks</li>
+            <li>Fabrication</li>
+        </ul>
     </section>
     <section id="Skills">
         <h2>Skills</h2>
@@ -58,10 +79,48 @@
         </ul>
     </section>
     <section id="projects">
-        <!-- Projects content -->
+        <h2>Projects</h2>
+        <ul>
+            <li>Project Manager</li>
+            <li>Github</li>
+            <li>G Suite</li>
+            <li>Chat GPT</li>
+            <li>AI Image Generation</li>
+            <li>Programming Languages:
+                <ul>
+                    <li>JavaScript</li>
+                    <li>Java</li>
+                    <li>Python</li>
+                    <li>C++</li>
+                    <li>C#</li>
+                    <li>HTML</li>
+                </ul>
+            </li>
+            <li>CAD - Solidworks</li>
+            <li>Fabrication</li>
+        </ul>
     </section>
     <section id="Links">
-        <!-- Links content -->
+        <h2>Links</h2>
+        <ul>
+            <li>Project Manager</li>
+            <li>Github</li>
+            <li>G Suite</li>
+            <li>Chat GPT</li>
+            <li>AI Image Generation</li>
+            <li>Programming Languages:
+                <ul>
+                    <li>JavaScript</li>
+                    <li>Java</li>
+                    <li>Python</li>
+                    <li>C++</li>
+                    <li>C#</li>
+                    <li>HTML</li>
+                </ul>
+            </li>
+            <li>CAD - Solidworks</li>
+            <li>Fabrication</li>
+        </ul>
     </section>
 
     <footer>
@@ -70,9 +129,7 @@
     </footer>
 
     <div id="p5-canvas" style="display:none;"></div>
-    <!-- <div class="platform" style="position: absolute; left: 950px; top: 600px; width: 200px; height: 20px;"></div>
-    <div class="platform" style="position: absolute; left: 650px; top: 500px; width: 200px; height: 20px;"></div> -->
-    <!-- Add more platforms as needed -->
+
 
 
 
@@ -84,8 +141,10 @@
         // Character object
         let player = {
             image: null,
-            x: 1000,
-            y: 470,
+            x: 500,
+            //x: 1000,
+            //y: 470,
+            y: 500,
             width: 50,
             height: 50,
             speed: 5,
@@ -99,16 +158,16 @@
             { x: 950, y: 600, width: 200, height: 20 },
             { x: 650, y: 500, width: 200, height: 20 },
             { x: 1100, y: 470, width: 50, height: 50 },
-            
+
             // Add more platform objects as needed
         ];
 
-    
+
         function toggleGameMode() {
             gameMode = !gameMode;
             let canvasDiv = document.getElementById('p5-canvas');
             let button = document.getElementById('gameToggleButton');
-            
+
             if (gameMode) {
                 canvasDiv.style.display = 'block';
                 button.innerText = 'Go Back to Normal';
@@ -117,11 +176,87 @@
                 button.innerText = 'Explore as a Game';
             }
         }
-    
+
         function preload() {
             player.image = loadImage('images/pixel_art_cute_small_ghost.png');
         }
-    
+
+
+        let teleporters = []; // Initialize teleporter array
+
+        function createTeleporters() {
+            teleporters = []; // Reset teleporters array
+
+            // Create teleporters for navigation links
+            document.querySelectorAll('.nav-list li a').forEach((link, index) => {
+                const href = link.getAttribute('href'); // Get the corresponding section id
+                if (href && href.startsWith("#")) {
+                    const targetId = href.substring(1); // Extract the id without '#'
+                    const targetElem = document.getElementById(targetId);
+                    if (targetElem) {
+                        const linkRect = link.getBoundingClientRect();
+                        const targetRect = targetElem.getBoundingClientRect();
+
+                        // Assign a unique pair identifier for each teleporter pair
+                        const pairId = `pair-${index}`;
+
+                        // Teleporter at navigation link (header)
+                        teleporters.push({
+                            x: linkRect.left, // Adjust as needed
+                            y: linkRect.top + window.scrollY + 10,
+                            width: 50,
+                            height: 50,
+                            target: pairId, // Using the pair ID as target
+                            pair: targetId // Linking to its corresponding section
+                        });
+
+                        // Corresponding teleporter in the section
+                        teleporters.push({
+                            x: targetRect.left + window.scrollX + 30, // Adjust as needed
+                            y: targetRect.bottom + window.scrollY - 70, // Adjust as needed
+                            width: 50,
+                            height: 50,
+                            target: targetId, // Or any other designated return point
+                            pair: pairId // Linking back to its header counterpart
+                        });
+                    }
+                }
+            });
+        }
+
+        function checkForTeleportation() {
+            for (const teleporter of teleporters) {
+                // Check if player is within teleporter bounds
+                if (
+                    player.x < teleporter.x + teleporter.width &&
+                    player.x + player.width > teleporter.x &&
+                    player.y < teleporter.y + teleporter.height &&
+                    player.y + player.height > teleporter.y
+                ) {
+                    return teleporter; // Return the colliding teleporter
+                }
+            }
+            return null; // No collision with any teleporter
+        }
+
+        function teleport(teleporter) {
+        const pairTeleporter = teleporters.find(t => t.pair === teleporter.target);
+        if (pairTeleporter) {
+            player.x = pairTeleporter.x;
+            player.y = pairTeleporter.y - player.height; // Adjust so the player appears above the teleporter
+            player.velocityY = 0; // Reset velocity to prevent falling through platforms
+
+            // Now scroll the window to the player's new location
+            const newX = player.x - (window.innerWidth / 2) + (player.width / 2); // Center horizontally
+            const newY = player.y - (window.innerHeight / 2) + (player.height / 2); // Center vertically
+
+            window.scrollTo({
+                top: newY,
+                left: newX,
+                behavior: 'smooth' // Smooth scroll
+            });
+        }
+    }
 
         function createPlatformsFromSections() {
             platforms = []; // Reset platforms array
@@ -163,12 +298,14 @@
         function windowResized() {
             resizeCanvas(windowWidth, windowHeight);
             createPlatformsFromSections(); // Recreate platforms
+            createTeleporters(); // Recreate teleporters
         }
-        
+
         function setup() {
             let canvas = createCanvas(windowWidth, windowHeight);
             canvas.parent('p5-canvas');
             createPlatformsFromSections(); // Initialize platforms
+            createTeleporters(); // Initialize teleporters
         }
         function checkCollision(nextX, nextY) {
             for (let platform of platforms) {
@@ -190,7 +327,7 @@
                 // Predict next position
                 let nextX = player.x;
                 let nextY = player.y + player.velocityY;
-                
+
                 // Check vertical collision (platforms)
                 let platformY = checkCollision(player.x, nextY);
                 if (platformY) {
@@ -225,9 +362,26 @@
 
                 // Handle jump
                 if (keyIsDown(87) && player.grounded) {
-                player.velocityY = -player.jumpStrength; // Apply jump velocity
-                player.grounded = false; // Player is no longer grounded
-            }
+                    let intersectingTeleporter = checkForTeleportation()
+                    if (intersectingTeleporter != null) {
+                        player.grounded = false
+                        teleport(intersectingTeleporter);
+                    }
+                    else {
+                        player.velocityY = -player.jumpStrength; // Apply jump velocity
+                        player.grounded = false; // Player is no longer grounded
+                    }
+                }
+
+
+                // Check for teleportation before rendering the player
+
+
+
+                teleporters.forEach(teleporter => {
+                    fill(0, 255, 0); // Green color for teleporters
+                    rect(teleporter.x - window.scrollX, teleporter.y - window.scrollY, teleporter.width, teleporter.height);
+                });
 
                 // Render platforms
                 for (let platform of platforms) {
@@ -243,6 +397,7 @@
 
         window.addEventListener('resize', windowResized);
     </script>
-    
+
 </body>
+
 </html>
