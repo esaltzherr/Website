@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,28 +11,44 @@
     <link rel="preload" href="images/GitHubLogo.png" as="image">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 </head>
+
 <body id="top">
-    <header>
+    <header id="characterStartPoint">
         <div class="center-text">
             <h1>Elroy Saltzherr</h1>
-            <img src="images/ProfilePic.jpg" class="profile-pic" style="width:256px;height:256px;border:0;"/>
+            <img src="images/ProfilePic.jpg" class="profile-pic" style="width:256px;height:256px;border:0;" />
             <p><a href="mailto:lsaltzherr@gmail.com" class="email-link">lsaltzherr@gmail.com</a></p>
             <p>Hello, I am a UCSC senior Majoring in Computer Science: Game Design</p>
-            <p>I have spent a vast majority of my life playing games. Including but not limited to: Minecraft, league of legends, Pokemon, and Mario Games.</p>
+            <p>I have spent a vast majority of my life playing games. Including but not limited to: Minecraft, league of
+                legends, Pokemon, and Mario Games.</p>
         </div>
         <nav>
             <ul class="nav-list">
-                <li><a href="#Education">Education</a></li>   
+                <li><a href="#Education">Education</a></li>
                 <li><a href="#Skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#Links">Links</a></li>
             </ul>
-            <a href="javascript:void(0);" id="gameToggleButton" onclick="toggleGameMode()" class="button">Explore as a Game</a>
+            <a href="javascript:void(0);" id="gameToggleButton" onclick="toggleGameMode()" class="button">Explore as a
+                Game</a>
         </nav>
     </header>
 
     <section id="Education">
-        <!-- Education content -->
+        <h2>Relevant Education</h2>
+        <img src='images/UCSantaCruzLogo.png' alt="UCSC" style="width:64px;height:64px;border:0;margin:0;padding:0;">
+        <p class="underlined" style="margin: 0;">UC Santa Cruz</p>
+        <ul>
+            <li>Explored the evolution of games and their cultural impact over the years.</li>
+            <li>Delved into foundational game design principles leading to successful gaming experiences.</li>
+            <li>Acquired skills in visual imagery and interactivity to effectively communicate artistic intent.</li>
+            <li>Analyzed how cultural meaning, visual and social context influence game perception and player impact.
+            </li>
+            <li>Utilized C and command line tools to design algorithms, understand compile-link-executable cycles, and
+                organize program structures.</li>
+            <li>Enhanced understanding of circuitry and gates, applying this knowledge in assembly programming for data
+                manipulation.</li>
+        </ul>
     </section>
     <section id="Skills">
         <h2>Skills</h2>
@@ -56,10 +73,65 @@
         </ul>
     </section>
     <section id="projects">
-        <!-- Projects content -->
+        <h2>Projects</h2>
+        <h3 class="underlined"><a href="https://www.etsy.com/shop/ArtisticOases" target="_blank"
+                class="permanent-underline">Etsy Store</a></h3>
+        <ul>
+            <li>Image Resizing with PIL</li>
+            <li>Google Sheets reading and Updating</li>
+            <li>Adding Files and sorted folders to Google Drive</li>
+            <li>Discord Bot integration for ease of use</li>
+            <li>Reducing User Error and simplification</li>
+            <li>Utilizing AI Image Generation (Midjourney)</li>
+            <li>Uploading images and all its information to Etsy and Printify</li>
+            <li>Workflow: Generate an image using the Midjourney AI image </li>
+
+
+        </ul>
+
+        <h3 class="underlined"><a href="https://koobysnack.itch.io/reverberate" target="_blank"
+                class="permanent-underline">Reverberate</a></h3>
+        <ul>
+            <li>Unity</li>
+            <li>Use of lack of lighting to create an interesting game feel</li>
+            <li>Working in group of 3</li>
+            <li>Basic Movement and sound</li>
+
+        </ul>
+
+
+
+
+        <h3 class="underlined">CMPM 120 Projects</h3>
+        <ul>
+            <li>JavaScript</li>
+            <li>Phaser framework</li>
+            <li>Working in group of 3</li>
+
+        </ul>
+        <h3 class="underlined">CMPM 170 Capstone Projects</h3>
+        <ul>
+            <li>Unity</li>
+            <li>C# Scripts</li>
+            <li>Rapid Prototyping within 1-2 weeks</li>
+            <li>Working in groups of 4-5</li>
+        </ul>
+        <!-- Include your projects here -->
     </section>
     <section id="Links">
-        <!-- Links content -->
+        <h2>Links</h2>
+        <div style="display: flex; justify-content: center; gap: 50px;">
+            <div style="text-align: center;">
+                <a href="https://www.linkedin.com/in/elroy-saltzherr/" target="_blank">
+                    <img src='images/LinkedInLogo.png' alt="LinkedIn" style="width:64px;height:64px;border:0;">
+                </a>
+            </div>
+            <div style="text-align: center;">
+                <a href="https://github.com/esaltzherr" target="_blank">
+                    <img src='images/GitHubLogo.png' alt="GitHub" style="width:64px;height:64px;border:0;">
+                </a>
+            </div>
+        </div>
     </section>
 
     <footer>
@@ -69,54 +141,336 @@
 
     <div id="p5-canvas" style="display:none;"></div>
 
+
+
+
+
+
     <script>
         let gameMode = false;
-        let characterImg;
-        let characterX, characterY;
-        let characterSpeed = 5;
+        let gravity = 1;
+        // Character object
+        let player = {
+            image: null,
+            x: 500,
+            //x: 1000,
+            //y: 470,
+            y: 500,
+            width: 50,
+            height: 50,
+            speed: 5,
+            jumpStrength: 20,
+            velocityY: 0,
+            grounded: false,
+        };
+
+        // Platforms as an array of objects
+        let platforms = [
+            { x: 950, y: 600, width: 200, height: 20 },
+            { x: 650, y: 500, width: 200, height: 20 },
+            { x: 1100, y: 470, width: 50, height: 50 },
+
+            // Add more platform objects as needed
+        ];
+
 
         function toggleGameMode() {
             gameMode = !gameMode;
             let canvasDiv = document.getElementById('p5-canvas');
             let button = document.getElementById('gameToggleButton');
-            let body = document.body;
+
+            let navLinks = document.querySelectorAll('.nav-list li a'); // Select the nav links
+
+
+            let buttonRect = button.getBoundingClientRect();
+
+            player.x = buttonRect.x + buttonRect.width / 2 - player.width / 2; // Center of the button
+            player.y = buttonRect.y + buttonRect.height - 20 + window.scrollY; // Just below the button
+
+
 
             if (gameMode) {
+                navLinks.forEach(link => {
+                    link.classList.add('disabled'); // Add a 'disabled' class or set attribute as needed
+                    link.onclick = function (event) { event.preventDefault(); }; // Prevent default click behavior
+                });
                 canvasDiv.style.display = 'block';
                 button.innerText = 'Go Back to Normal';
-                body.style.overflowY = 'hidden'; // Hide vertical scroll
-                body.style.height = '100vh'; // Fix the height
-                body.style.overflowX = 'hidden'; // Hide horizontal scroll
             } else {
+                navLinks.forEach(link => {
+                    link.classList.remove('disabled'); // Remove 'disabled' class or attribute
+                    link.onclick = null; // Remove the click handler
+                });
                 canvasDiv.style.display = 'none';
                 button.innerText = 'Explore as a Game';
-                body.style.overflowY = 'auto'; // Show vertical scroll
-                body.style.height = 'auto'; // Restore height
-                body.style.overflowX = 'hidden'; // Keep horizontal scroll hidden
             }
         }
 
         function preload() {
-            characterImg = loadImage('images/pixel_art_cute_small_ghost.png'); // Replace with your image path
+            player.image = loadImage('images/pixel_art_cute_small_ghost.png');
+            portalSpriteSheet = loadImage('images/PortalBlue-Sheet.png'); // Load the sprite sheet
+        }
+
+        let portalFrames = []; // Array to hold each frame data
+
+        function setupPortalAnimation() {
+            // Assuming the sprite sheet has frames laid out horizontally
+            const frameCount = portalSpriteSheet.width / 50; // Calculate the number of frames
+
+            for (let i = 0; i < frameCount; i++) {
+                // Define each frame of the animation
+                portalFrames.push({ x: i * 50, y: 0, width: 50, height: 50 });
+            }
+        }
+
+        function drawTeleporters() {
+            if (teleporters.length > 0) {
+                let animationFrameRate = 7;
+                const frameIndex = Math.floor(animationCounter / animationFrameRate) % portalFrames.length; // Slow down frame rate
+                const frame = portalFrames[frameIndex]; // Get the current frame
+
+                teleporters.forEach(teleporter => {
+                    // Draw each frame of the animation instead of a static rectangle
+                    image(
+                        portalSpriteSheet, // Source image
+                        teleporter.x - window.scrollX, teleporter.y - window.scrollY, // Destination position
+                        teleporter.width, teleporter.height, // Destination size
+                        frame.x, frame.y, // Source position on the sprite sheet
+                        frame.width, frame.height // Source size on the sprite sheet
+                    );
+                });
+            }
+        }
+
+
+
+
+        let teleporters = []; // Initialize teleporter array
+
+        function createTeleporters() {
+            teleporters = []; // Reset teleporters array
+
+            // Create teleporters for navigation links
+            document.querySelectorAll('.nav-list li a').forEach((link, index) => {
+                const href = link.getAttribute('href'); // Get the corresponding section id
+                if (href && href.startsWith("#")) {
+                    const targetId = href.substring(1); // Extract the id without '#'
+                    const targetElem = document.getElementById(targetId);
+                    if (targetElem) {
+                        const linkRect = link.getBoundingClientRect();
+                        const targetRect = targetElem.getBoundingClientRect();
+
+                        // Assign a unique pair identifier for each teleporter pair
+                        const pairId = `pair-${index}`;
+
+                        // Teleporter at navigation link (header)
+                        teleporters.push({
+                            x: linkRect.left, // Adjust as needed
+                            y: linkRect.top + window.scrollY + 10,
+                            width: 50,
+                            height: 50,
+                            target: pairId, // Using the pair ID as target
+                            pair: targetId // Linking to its corresponding section
+                        });
+
+                        // Corresponding teleporter in the section
+                        teleporters.push({
+                            x: targetRect.left + window.scrollX + 30, // Adjust as needed
+                            y: targetRect.bottom + window.scrollY - 70, // Adjust as needed
+                            width: 50,
+                            height: 50,
+                            target: targetId, // Or any other designated return point
+                            pair: pairId // Linking back to its header counterpart
+                        });
+                    }
+                }
+            });
+        }
+
+        function checkForTeleportation() {
+            for (const teleporter of teleporters) {
+                // Check if player is within teleporter bounds
+                if (
+                    player.x < teleporter.x + teleporter.width &&
+                    player.x + player.width > teleporter.x &&
+                    player.y < teleporter.y + teleporter.height &&
+                    player.y + player.height > teleporter.y
+                ) {
+                    return teleporter; // Return the colliding teleporter
+                }
+            }
+            return null; // No collision with any teleporter
+        }
+
+        function teleport(teleporter) {
+            const pairTeleporter = teleporters.find(t => t.pair === teleporter.target);
+            if (pairTeleporter) {
+                player.x = pairTeleporter.x;
+                player.y = pairTeleporter.y - player.height; // Adjust so the player appears above the teleporter
+                player.velocityY = 0; // Reset velocity to prevent falling through platforms
+
+                // Now scroll the window to the player's new location
+                const newX = player.x - (window.innerWidth / 2) + (player.width / 2); // Center horizontally
+                const newY = player.y - (window.innerHeight / 2) + (player.height / 2); // Center vertically
+
+                window.scrollTo({
+                    top: newY,
+                    left: newX,
+                    behavior: 'smooth' // Smooth scroll
+                });
+            }
+        }
+
+        function createPlatformsFromSections() {
+            platforms = []; // Reset platforms array
+            // Select all sections, including header and footer
+            document.querySelectorAll('section, header, footer').forEach((elem) => {
+                const rect = elem.getBoundingClientRect();
+                // Top platform
+                platforms.push({
+                    x: rect.left + window.scrollX,
+                    y: rect.top + window.scrollY - 20, // Adjusted for platform height
+                    width: rect.width,
+                    height: 20 // Height of the platform
+                });
+                // Left side platform
+                platforms.push({
+                    x: rect.left + window.scrollX,
+                    y: rect.top + window.scrollY,
+                    width: 20, // Width of the side platform
+                    height: rect.height // Height of the section
+                });
+                // Right side platform
+                platforms.push({
+                    x: rect.right + window.scrollX - 20, // Positioned at the right edge
+                    y: rect.top + window.scrollY,
+                    width: 20, // Width of the side platform
+                    height: rect.height // Height of the section
+                });
+                // Bottom platform
+                platforms.push({
+                    x: rect.left + window.scrollX,
+                    y: rect.bottom + window.scrollY - 20,
+                    width: rect.width,
+                    height: 20
+                });
+            });
+        }
+
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+            createPlatformsFromSections(); // Recreate platforms
+            createTeleporters(); // Recreate teleporters
         }
 
         function setup() {
-            let canvas = createCanvas(windowWidth, windowHeight); // Adjust size to window
+            let canvas = createCanvas(windowWidth, windowHeight);
             canvas.parent('p5-canvas');
-            characterX = width / 2;
-            characterY = height / 2;
+            createPlatformsFromSections(); // Initialize platforms
+            createTeleporters(); // Initialize teleporters
+            setupPortalAnimation(); // Initialize the portal animation frames
+
+        }
+        function checkCollision(nextX, nextY) {
+            for (let platform of platforms) {
+                if (
+                    nextX < platform.x + platform.width &&
+                    nextX + player.width > platform.x &&
+                    nextY < platform.y + platform.height &&
+                    nextY + player.height > platform.y
+                ) {
+                    return platform; // Return the colliding platform
+                }
+            }
+            return null; // No collision
         }
 
+
+        let animationCounter = 0;
+
         function draw() {
-            clear(); // This will clear the canvas and make the background transparent
+            clear();
             if (gameMode) {
-                image(characterImg, characterX, characterY, 50, 50); // Adjust size as needed
-                if (keyIsDown(65)) characterX -= characterSpeed; // A key
-                if (keyIsDown(68)) characterX += characterSpeed; // D key
-                if (keyIsDown(87)) characterY -= characterSpeed; // W key
-                if (keyIsDown(83)) characterY += characterSpeed; // S key
+                // Predict next position
+                let nextX = player.x;
+                let nextY = player.y + player.velocityY;
+
+                // Check vertical collision (platforms)
+                let platformY = checkCollision(player.x, nextY);
+                if (platformY) {
+                    if (player.velocityY > 0) { // Falling down
+                        player.y = platformY.y - player.height; // Place player on top of platform
+                        player.velocityY = 0; // Stop falling
+                        player.grounded = true;
+                    } else if (player.velocityY < 0) { // Moving up
+                        player.y = platformY.y + platformY.height; // Hit the bottom of the platform
+                        player.velocityY = 0; // Stop upward motion
+                    }
+                } else {
+                    player.y += player.velocityY; // Apply vertical movement
+                    player.velocityY += gravity; // Apply gravity
+                }
+
+                // Check horizontal collision (platforms)
+                if (keyIsDown(65)) { // Move left
+                    nextX = player.x - player.speed;
+                    let platformX = checkCollision(nextX, player.y);
+                    if (!platformX) {
+                        player.x = nextX;
+                    }
+                }
+                if (keyIsDown(68)) { // Move right
+                    nextX = player.x + player.speed;
+                    let platformX = checkCollision(nextX, player.y);
+                    if (!platformX) {
+                        player.x = nextX;
+                    }
+                }
+
+                // Handle jump
+                if (keyIsDown(87) && player.grounded) {
+                    let intersectingTeleporter = checkForTeleportation()
+                    if (intersectingTeleporter != null) {
+                        player.grounded = false
+                        teleport(intersectingTeleporter);
+                    }
+                    else {
+                        player.velocityY = -player.jumpStrength; // Apply jump velocity
+                        player.grounded = false; // Player is no longer grounded
+                    }
+                }
+
+                animationCounter++;
+                // if (animationCounter >= animationFrameRate) {
+                //     // Reset counter
+                //     animationCounter = 0;
+                // }
+
+                // Check for teleportation before rendering the player
+
+
+                drawTeleporters();
+                // teleporters.forEach(teleporter => {
+                //     fill(0, 255, 0); // Green color for teleporters
+                //     rect(teleporter.x - window.scrollX, teleporter.y - window.scrollY, teleporter.width, teleporter.height);
+                // });
+
+                // Render platforms
+                for (let platform of platforms) {
+                    fill(100); // Platform color
+                    rect(platform.x - window.scrollX, platform.y - window.scrollY, platform.width, platform.height);
+                }
+
+                // Draw the character at updated position
+                image(player.image, player.x - window.scrollX, player.y - window.scrollY, player.width, player.height);
             }
         }
+
+
+        window.addEventListener('resize', windowResized);
     </script>
+
 </body>
+
 </html>

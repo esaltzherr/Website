@@ -46,6 +46,11 @@ nav {
     margin: 0 20px;
 }
 
+.nav-list li a.disabled {
+    color: rgb(0, 0, 0); /* Dim the link color */
+    pointer-events: none; /* Prevents click and hover events */
+    cursor: default;
+}
 
 
 
@@ -110,5 +115,10 @@ a.permanent-underline {
     background-color: #555; /* Dark grey color */
     border: 1px solid #333; /* Slightly darker border for depth */
     /* Add more styles as needed */
+}
+
+.interactable-highlight {
+    transform: scale(1.2); /* 20% larger */
+    transition: transform 0.3s; /* Smooth transition for the scaling */
 }
 

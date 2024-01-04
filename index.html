@@ -42,10 +42,13 @@
             <li>Explored the evolution of games and their cultural impact over the years.</li>
             <li>Delved into foundational game design principles leading to successful gaming experiences.</li>
             <li>Acquired skills in visual imagery and interactivity to effectively communicate artistic intent.</li>
-            <li>Analyzed how cultural meaning, visual and social context influence game perception and player impact.</li>
-            <li>Utilized C and command line tools to design algorithms, understand compile-link-executable cycles, and organize program structures.</li>
-            <li>Enhanced understanding of circuitry and gates, applying this knowledge in assembly programming for data manipulation.</li>
-        </ul>        
+            <li>Analyzed how cultural meaning, visual and social context influence game perception and player impact.
+            </li>
+            <li>Utilized C and command line tools to design algorithms, understand compile-link-executable cycles, and
+                organize program structures.</li>
+            <li>Enhanced understanding of circuitry and gates, applying this knowledge in assembly programming for data
+                manipulation.</li>
+        </ul>
     </section>
     <section id="Skills">
         <h2>Skills</h2>
@@ -71,7 +74,8 @@
     </section>
     <section id="projects">
         <h2>Projects</h2>
-        <h3 class="underlined"><a href="https://www.etsy.com/shop/ArtisticOases" target="_blank" class="permanent-underline">Etsy Store</a></h3>
+        <h3 class="underlined"><a href="https://www.etsy.com/shop/ArtisticOases" target="_blank"
+                class="permanent-underline">Etsy Store</a></h3>
         <ul>
             <li>Image Resizing with PIL</li>
             <li>Google Sheets reading and Updating</li>
@@ -85,7 +89,8 @@
 
         </ul>
 
-        <h3 class="underlined"><a href="https://koobysnack.itch.io/reverberate" target="_blank" class="permanent-underline">Reverberate</a></h3>
+        <h3 class="underlined"><a href="https://koobysnack.itch.io/reverberate" target="_blank"
+                class="permanent-underline">Reverberate</a></h3>
         <ul>
             <li>Unity</li>
             <li>Use of lack of lighting to create an interesting game feel</li>
@@ -144,6 +149,8 @@
     <script>
         let gameMode = false;
         let gravity = 1;
+        let interactionBool = true;
+
         // Character object
         let player = {
             image: null,
@@ -159,6 +166,8 @@
             grounded: false,
         };
 
+
+
         // Platforms as an array of objects
         let platforms = [
             { x: 950, y: 600, width: 200, height: 20 },
@@ -169,15 +178,60 @@
         ];
 
 
+        let interactables = [
+            {
+                element: document.querySelector("a[href*='linkedin.com']"),
+                x: 0,
+                y: 0,
+                width: 64, // Assuming 64px is the width and height of the icon
+                height: 64,
+                url: "https://www.linkedin.com/in/elroy-saltzherr/"
+            },
+            {
+                element: document.querySelector("a[href*='github.com']"),
+                x: 0,
+                y: 0,
+                width: 64,
+                height: 64,
+                url: "https://github.com/esaltzherr"
+            }
+        ];
+
+
+
+
+
+
+
+
+
         function toggleGameMode() {
             gameMode = !gameMode;
             let canvasDiv = document.getElementById('p5-canvas');
             let button = document.getElementById('gameToggleButton');
 
+            let navLinks = document.querySelectorAll('.nav-list li a'); // Select the nav links
+
+
+            let buttonRect = button.getBoundingClientRect();
+
+            player.x = buttonRect.x + buttonRect.width / 2 - player.width / 2; // Center of the button
+            player.y = buttonRect.y + buttonRect.height - 20 + window.scrollY; // Just below the button
+
+
+
             if (gameMode) {
+                navLinks.forEach(link => {
+                    link.classList.add('disabled'); // Add a 'disabled' class or set attribute as needed
+                    link.onclick = function (event) { event.preventDefault(); }; // Prevent default click behavior
+                });
                 canvasDiv.style.display = 'block';
                 button.innerText = 'Go Back to Normal';
             } else {
+                navLinks.forEach(link => {
+                    link.classList.remove('disabled'); // Remove 'disabled' class or attribute
+                    link.onclick = null; // Remove the click handler
+                });
                 canvasDiv.style.display = 'none';
                 button.innerText = 'Explore as a Game';
             }
@@ -298,6 +352,40 @@
             }
         }
 
+        function updateInteractablePositions() {
+            interactables.forEach(interactable => {
+                let rect = interactable.element.getBoundingClientRect();
+                interactable.x = rect.left + window.scrollX;
+                interactable.y = rect.top + window.scrollY;
+            });
+        }
+
+        function checkInteraction() {
+            interactables.forEach(interactable => {
+                // Check if player is close enough to interact
+                if (Math.abs(player.x - interactable.x) < interactable.width && Math.abs(player.y - interactable.y) < interactable.height) {
+                    // Player is near the interactable, show visual cue or log for now
+                    //console.log(`Player can interact with ${interactable.url}`);
+                    interactable.element.classList.add("interactable-highlight");
+                    // If the interaction key is pressed
+                    if (keyIsPressed && (key === 'E' || key == 'e')) { // E.g., pressing 'E' key
+                        window.open(interactable.url, "_blank"); // Open the link in a new tab
+                    }
+
+                }
+                else {
+                    interactable.element.classList.remove("interactable-highlight");
+                }
+
+
+            });
+        }
+
+
+
+
+
+
         function createPlatformsFromSections() {
             platforms = []; // Reset platforms array
             // Select all sections, including header and footer
@@ -339,6 +427,7 @@
             resizeCanvas(windowWidth, windowHeight);
             createPlatformsFromSections(); // Recreate platforms
             createTeleporters(); // Recreate teleporters
+            updateInteractablePositions();
         }
 
         function setup() {
@@ -347,6 +436,7 @@
             createPlatformsFromSections(); // Initialize platforms
             createTeleporters(); // Initialize teleporters
             setupPortalAnimation(); // Initialize the portal animation frames
+            updateInteractablePositions();
 
         }
         function checkCollision(nextX, nextY) {
@@ -363,7 +453,11 @@
             return null; // No collision
         }
 
-
+        function keyReleased() {
+            if (keyCode === 69) { // 'E' key
+                interactionBool = true;
+            }
+        }
         let animationCounter = 0;
 
         function draw() {
@@ -374,6 +468,7 @@
                 let nextY = player.y + player.velocityY;
 
                 // Check vertical collision (platforms)
+                checkInteraction();
                 let platformY = checkCollision(player.x, nextY);
                 if (platformY) {
                     if (player.velocityY > 0) { // Falling down
@@ -407,16 +502,21 @@
 
                 // Handle jump
                 if (keyIsDown(87) && player.grounded) {
+                    player.velocityY = -player.jumpStrength; // Apply jump velocity
+                    player.grounded = false; // Player is no longer grounded
+                }
+
+                // if (!interactionBool && keyIsUp(69)) {
+                //     interactionBool = true;
+                // }
+                if (keyIsDown(69) && interactionBool) {
                     let intersectingTeleporter = checkForTeleportation()
                     if (intersectingTeleporter != null) {
-                        player.grounded = false
                         teleport(intersectingTeleporter);
-                    }
-                    else {
-                        player.velocityY = -player.jumpStrength; // Apply jump velocity
-                        player.grounded = false; // Player is no longer grounded
+                        interactionBool = false
                     }
                 }
+
 
                 animationCounter++;
                 // if (animationCounter >= animationFrameRate) {
