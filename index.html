@@ -31,6 +31,8 @@
     </header>
 
     <section id="Education">
+        <h2>Education</h2>
+        <ul>
         <!-- Education content -->
     </section>
     <section id="Skills">
@@ -121,13 +123,53 @@
         }
     
 
+        function createPlatformsFromSections() {
+            platforms = []; // Reset platforms array
+            // Select all sections, including header and footer
+            document.querySelectorAll('section, header, footer').forEach((elem) => {
+                const rect = elem.getBoundingClientRect();
+                // Top platform
+                platforms.push({
+                    x: rect.left + window.scrollX,
+                    y: rect.top + window.scrollY - 20, // Adjusted for platform height
+                    width: rect.width,
+                    height: 20 // Height of the platform
+                });
+                // Left side platform
+                platforms.push({
+                    x: rect.left + window.scrollX,
+                    y: rect.top + window.scrollY,
+                    width: 20, // Width of the side platform
+                    height: rect.height // Height of the section
+                });
+                // Right side platform
+                platforms.push({
+                    x: rect.right + window.scrollX - 20, // Positioned at the right edge
+                    y: rect.top + window.scrollY,
+                    width: 20, // Width of the side platform
+                    height: rect.height // Height of the section
+                });
+                // Bottom platform
+                platforms.push({
+                    x: rect.left + window.scrollX,
+                    y: rect.bottom + window.scrollY - 20,
+                    width: rect.width,
+                    height: 20
+                });
+            });
+        }
 
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+            createPlatformsFromSections(); // Recreate platforms
+        }
         
         function setup() {
             let canvas = createCanvas(windowWidth, windowHeight);
             canvas.parent('p5-canvas');
+            createPlatformsFromSections(); // Initialize platforms
         }
-    
         function checkCollision(nextX, nextY) {
             for (let platform of platforms) {
                 if (
@@ -197,6 +239,9 @@
                 image(player.image, player.x - window.scrollX, player.y - window.scrollY, player.width, player.height);
             }
         }
+
+
+        window.addEventListener('resize', windowResized);
     </script>
     
 </body>
