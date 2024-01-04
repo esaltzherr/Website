@@ -95,3 +95,20 @@ ul li > ul {
 a.permanent-underline {
     text-decoration: underline;
 }
+
+
+#p5-canvas {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: transparent;
+    pointer-events: none;
+}
+
+.platform {
+    background-color: #555; /* Dark grey color */
+    border: 1px solid #333; /* Slightly darker border for depth */
+    /* Add more styles as needed */
+}
+

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elroy Saltzherr</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preload" href="images/ProfilePic.jpg" as="image">
+    <link rel="preload" href="images/LinkedInLogo.png" as="image">
+    <link rel="preload" href="images/GitHubLogo.png" as="image">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body id="top">
+    <header>
+        <div class="center-text">
+            <h1>Elroy Saltzherr</h1>
+            <img src="images/ProfilePic.jpg" class="profile-pic" style="width:256px;height:256px;border:0;"/>
+            <p><a href="mailto:lsaltzherr@gmail.com" class="email-link">lsaltzherr@gmail.com</a></p>
+            <p>Hello, I am a UCSC senior Majoring in Computer Science: Game Design</p>
+            <p>I have spent a vast majority of my life playing games. Including but not limited to: Minecraft, league of legends, Pokemon, and Mario Games.</p>
+        </div>
+        <nav>
+            <ul class="nav-list">
+                <li><a href="#Education">Education</a></li>   
+                <li><a href="#Skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#Links">Links</a></li>
+            </ul>
+            <a href="javascript:void(0);" id="gameToggleButton" onclick="toggleGameMode()" class="button">Explore as a Game</a>
+        </nav>
+    </header>
+
+    <section id="Education">
+        <!-- Education content -->
+    </section>
+    <section id="Skills">
+        <h2>Skills</h2>
+        <ul>
+            <li>Project Manager</li>
+            <li>Github</li>
+            <li>G Suite</li>
+            <li>Chat GPT</li>
+            <li>AI Image Generation</li>
+            <li>Programming Languages:
+                <ul>
+                    <li>JavaScript</li>
+                    <li>Java</li>
+                    <li>Python</li>
+                    <li>C++</li>
+                    <li>C#</li>
+                    <li>HTML</li>
+                </ul>
+            </li>
+            <li>CAD - Solidworks</li>
+            <li>Fabrication</li>
+        </ul>
+    </section>
+    <section id="projects">
+        <!-- Projects content -->
+    </section>
+    <section id="Links">
+        <!-- Links content -->
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Elroy Saltzherr. All rights reserved.</p>
+        <a href="#top">Back to Top</a>
+    </footer>
+
+    <div id="p5-canvas" style="display:none;"></div>
+
+    <script>
+        let gameMode = false;
+        let characterImg;
+        let characterX, characterY;
+        let characterSpeed = 5;
+
+        function toggleGameMode() {
+            gameMode = !gameMode;
+            let canvasDiv = document.getElementById('p5-canvas');
+            let button = document.getElementById('gameToggleButton');
+            let body = document.body;
+
+            if (gameMode) {
+                canvasDiv.style.display = 'block';
+                button.innerText = 'Go Back to Normal';
+                body.style.overflowY = 'hidden'; // Hide vertical scroll
+                body.style.height = '100vh'; // Fix the height
+                body.style.overflowX = 'hidden'; // Hide horizontal scroll
+            } else {
+                canvasDiv.style.display = 'none';
+                button.innerText = 'Explore as a Game';
+                body.style.overflowY = 'auto'; // Show vertical scroll
+                body.style.height = 'auto'; // Restore height
+                body.style.overflowX = 'hidden'; // Keep horizontal scroll hidden
+            }
+        }
+
+        function preload() {
+            characterImg = loadImage('images/pixel_art_cute_small_ghost.png'); // Replace with your image path
+        }
+
+        function setup() {
+            let canvas = createCanvas(windowWidth, windowHeight); // Adjust size to window
+            canvas.parent('p5-canvas');
+            characterX = width / 2;
+            characterY = height / 2;
+        }
+
+        function draw() {
+            clear(); // This will clear the canvas and make the background transparent
+            if (gameMode) {
+                image(characterImg, characterX, characterY, 50, 50); // Adjust size as needed
+                if (keyIsDown(65)) characterX -= characterSpeed; // A key
+                if (keyIsDown(68)) characterX += characterSpeed; // D key
+                if (keyIsDown(87)) characterY -= characterSpeed; // W key
+                if (keyIsDown(83)) characterY += characterSpeed; // S key
+            }
+        }
+    </script>
+</body>
+</html>
